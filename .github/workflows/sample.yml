@@ -1,0 +1,15 @@
+name: Sample Required Workflow
+
+on:
+  workflow_call:
+
+jobs:
+  default:
+    name: Default Job
+    runs-on:
+      - ubuntu-latest
+
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: console.log(context)
