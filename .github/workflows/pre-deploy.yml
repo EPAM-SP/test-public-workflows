@@ -1,4 +1,4 @@
-name: Deploy
+name: Pre-Deploy
 
 on:
   workflow_call:
@@ -12,12 +12,13 @@ on:
 
 jobs:
   deploy:
-    name: Deploy
+    name: Pre-Deploy
     runs-on: ${{ inputs.runner }}
     environment: ${{ inputs.environment }}
 
     steps:
-      - id: Context
+      - id: context
+        name: Context
         uses: actions/github-script@v7
         with:
           script: console.log(context)
