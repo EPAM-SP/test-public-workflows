@@ -65,8 +65,7 @@ jobs:
       matrix:
         environment: ${{ fromJSON(needs.setup.outputs.environments) }}
 
-    needs:
-      - [pre-deploy:${{ matrix.environment }}]
+    needs: [pre-deploy:${{ matrix.environment }}]
 
     name: Deploy
     uses: EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main
