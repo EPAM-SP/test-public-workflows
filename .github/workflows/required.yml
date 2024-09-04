@@ -45,7 +45,7 @@ jobs:
           }
           # Build up environments list
           echo "list=$(format_list dev,test,stage,prod)" | tee -a $GITHUB_OUTPUT;
-          echo $GITHUB_OUTPUT;
+          cat $GITHUB_OUTPUT;
 
   deploy:
     needs: setup
