@@ -31,7 +31,21 @@ jobs:
       - id: envs
         name: Environments
         run: |
-          echo 'list="[\"dev\", \"test\", \"stage\", \"prod\"]"' | tee -a $GITHUB_OUTPUT;
+          # Normalize comma-separated list to JSON
+          format_list () {
+            local INPUT=$1; shift;
+            local LIST=;
+            IFS=',' read -r -a ITEMS <<< $INPUT;
+            for i in ${ITEMS[@]};
+            do
+              LIST="${LIST}\"${i}\",";
+            done
+            local OUTPUT="[${LIST%?}]"; # Drop off the last comma
+            echo $OUTPUT;
+          }
+          # Build up environments list
+          echo "list=$(format_list dev,test,stage,prod)" | tee -a $GITHUB_OUTPUT;
+          echo $GITHUB_OUTPUT;
 
   deploy:
     needs: setup
