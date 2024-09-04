@@ -59,7 +59,7 @@ jobs:
     #   matrix:
     #     environment: ${{ fromJSON(needs.setup.outputs.environments) }}
     name: Dev
-    uses: EPAM-SP/test-private-workflows/.github/workflows/deploy.yml@main
+    uses: EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main
     with:
       environment: dev
     needs: 
@@ -67,7 +67,7 @@ jobs:
 
   test:
     name: Test
-    uses: EPAM-SP/test-private-workflows/.github/workflows/deploy.yml@main
+    uses: EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main
     with:
       environment: test
     needs:
@@ -75,7 +75,7 @@ jobs:
 
   stage:
     name: Stage
-    uses: EPAM-SP/test-private-workflows/.github/workflows/deploy.yml@main
+    uses: EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main
     with:
       environment: stage
     needs:
@@ -83,7 +83,7 @@ jobs:
 
   prod:
     name: Prod
-    uses: EPAM-SP/test-private-workflows/.github/workflows/deploy.yml@main
+    uses: EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main
     with:
       environment: prod
     needs:
