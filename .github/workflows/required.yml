@@ -47,27 +47,37 @@ jobs:
           echo "list=$(format_list dev,test,stage,prod)" | tee -a $GITHUB_OUTPUT;
           cat $GITHUB_OUTPUT;
 
-
-  pre-deploy:
-    needs: setup
-    strategy:
-      matrix:
-        environment: ${{ fromJSON(needs.setup.outputs.environments) }}
-
-    name: Pre-Deploy
-    uses: EPAM-SP/test-public-workflows/.github/workflows/pre-deploy.yml@main
-    with:
-      environment: ${{ matrix.environment }}
-
-  deploy:
-    needs:
-      - setup
-      - pre-deploy
-    strategy:
-      matrix:
-        environment: ${{ fromJSON(needs.setup.outputs.environments) }}
-
-    name: Deploy
+  dev:
+    # strategy:
+    #   matrix:
+    #     environment: ${{ fromJSON(needs.setup.outputs.environments) }}
+    name: Dev
     uses: EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main
     with:
-      environment: ${{ matrix.environment }}
+      environment: dev
+    needs: 
+      - setup
+
+  test:
+    name: Test
+    uses: EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main
+    with:
+      environment: test
+    needs:
+      - dev
+
+  stage:
+    name: Stage
+    uses: EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main
+    with:
+      environment: stage
+    needs:
+      - test
+
+  prod:
+    name: Prod
+    uses: EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main
+    with:
+      environment: prod
+    needs:
+      - stage

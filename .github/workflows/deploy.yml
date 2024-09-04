@@ -11,13 +11,20 @@ on:
         default: ubuntu-latest
 
 jobs:
-  deploy:
-    name: Deploy
-    runs-on: ${{ inputs.runner }}
-    environment: ${{ inputs.environment }}
+  pre-deploy:
+    name: Pre-Deploy
+    uses: EPAM-SP/test-public-workflows/.github/workflows/pre-deploy.yml@main
+    with:
+      environment: ${{ inputs.environment }}
 
-    steps:
-      - id: Context
-        uses: actions/github-script@v7
-        with:
-          script: console.log(context)
+  main-deploy:
+    name: Main-Deploy
+    uses: EPAM-SP/test-public-workflows/.github/workflows/main-deploy.yml@main
+    with:
+      environment: ${{ inputs.environment }}
+
+  post-deploy:
+    name: Post-Deploy
+    uses: EPAM-SP/test-public-workflows/.github/workflows/post-deploy.yml@main
+    with:
+      environment: ${{ inputs.environment }}
