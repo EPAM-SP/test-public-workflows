@@ -22,9 +22,13 @@ jobs:
     uses: EPAM-SP/test-public-workflows/.github/workflows/main-deploy.yml@main
     with:
       environment: ${{ inputs.environment }}
+    needs:
+      - pre-deploy
 
   post-deploy:
     name: Post-Deploy
     uses: EPAM-SP/test-public-workflows/.github/workflows/post-deploy.yml@main
     with:
       environment: ${{ inputs.environment }}
+    needs:
+      - main-deploy
