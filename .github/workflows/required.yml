@@ -40,6 +40,6 @@ jobs:
         environment: ${{ fromJSON(needs.setup.outputs.environments) }}
 
     name: Deploy
-    uses: ./.github/workflows/deploy.yml
+    uses: EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main
     with:
       environment: ${{ matrix.environment }}
