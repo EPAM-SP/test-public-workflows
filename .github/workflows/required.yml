@@ -52,11 +52,7 @@ jobs:
     needs: setup
     strategy:
       matrix:
-        environment:
-          - dev
-          - test
-          - stage
-          - prod
+        environment: ${{ fromJSON(needs.setup.outputs.environments) }}
 
     name: Pre-Deploy
     uses: EPAM-SP/test-public-workflows/.github/workflows/pre-deploy.yml@main
@@ -65,14 +61,11 @@ jobs:
 
 
   deploy:
-    needs: [pre-deploy:${{ matrix.environment }}]
+    needs:
+      - pre-deploy
     strategy:
       matrix:
-        environment:
-          - dev
-          - test
-          - stage
-          - prod
+        environment: ${{ fromJSON(needs.setup.outputs.environments) }}
 
     name: Deploy
     uses: EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main
