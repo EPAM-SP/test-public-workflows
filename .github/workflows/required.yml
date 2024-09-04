@@ -31,8 +31,9 @@ jobs:
       - id: envs
         name: Environments
         run: |
-          # Normalize comma-separated list to JSON
+          # Build up environments list
           format_list () {
+            # Normalize comma-separated list to JSON
             local INPUT=$1; shift;
             local LIST=;
             IFS=',' read -r -a ITEMS <<< $INPUT;
@@ -43,7 +44,6 @@ jobs:
             local OUTPUT="[${LIST%?}]"; # Drop off the last comma
             echo $OUTPUT;
           }
-          # Build up environments list
           echo "list=$(format_list dev,test,stage,prod)" | tee -a $GITHUB_OUTPUT;
           cat $GITHUB_OUTPUT;
 
