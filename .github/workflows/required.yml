@@ -25,6 +25,7 @@ jobs:
       - ubuntu-latest
 
     outputs:
+      workflow: ${{ steps.workflow.outputs.ref }}
       environments: ${{ steps.envs.outputs.list }}
 
     steps:
@@ -47,6 +48,12 @@ jobs:
           echo "list=$(format_list dev,test,stage,prod)" | tee -a $GITHUB_OUTPUT;
           cat $GITHUB_OUTPUT;
 
+      - id: workflow
+        name: Workflow
+        run: |
+          # Setup workflow to run
+          echo "ref=EPAM-SP/test-public-workflows/.github/workflows/deploy.yml@main" | tee -a $GITHUB_OUTPUT;
+          cat $GITHUB_OUTPUT;
   dev:
     # strategy:
     #   matrix:

@@ -11,24 +11,54 @@ on:
         default: ubuntu-latest
 
 jobs:
-  pre-deploy:
-    name: Pre-Deploy
-    uses: EPAM-SP/test-public-workflows/.github/workflows/pre-deploy.yml@main
-    with:
-      environment: ${{ inputs.environment }}
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
 
-  main-deploy:
-    name: Main-Deploy
-    uses: EPAM-SP/test-public-workflows/.github/workflows/main-deploy.yml@main
-    with:
-      environment: ${{ inputs.environment }}
-    needs:
-      - pre-deploy
+    steps:
+      - id: context
+        name: Context
+        uses: actions/github-script@v7
+        with:
+          script: console.log(context)
 
-  post-deploy:
-    name: Post-Deploy
-    uses: EPAM-SP/test-public-workflows/.github/workflows/post-deploy.yml@main
-    with:
-      environment: ${{ inputs.environment }}
-    needs:
-      - main-deploy
+      - id: pre-deploy
+        name: Pre-Deploy
+        uses: actions/github-script@v7
+        with:
+          script: console.log(context)
+
+      - id: main-deploy
+        name: Main-Deploy
+        uses: actions/github-script@v7
+        with:
+          script: console.log(context)
+
+      - id: post-deploy
+        name: Post-Deploy
+        uses: actions/github-script@v7
+        with:
+          script: console.log(context)
+
+  # pre-deploy:
+  #   name: Pre-Deploy
+  #   uses: EPAM-SP/test-public-workflows/.github/workflows/pre-deploy.yml@main
+  #   with:
+  #     environment: ${{ inputs.environment }}
+
+  # main-deploy:
+  #   name: Main-Deploy
+  #   uses: EPAM-SP/test-public-workflows/.github/workflows/main-deploy.yml@main
+  #   with:
+  #     environment: ${{ inputs.environment }}
+  #   needs:
+  #     - pre-deploy
+
+  # post-deploy:
+  #   name: Post-Deploy
+  #   uses: EPAM-SP/test-public-workflows/.github/workflows/post-deploy.yml@main
+  #   with:
+  #     environment: ${{ inputs.environment }}
+  #   needs:
+  #     - main-deploy
