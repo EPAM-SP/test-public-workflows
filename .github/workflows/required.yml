@@ -59,9 +59,9 @@ jobs:
     with:
       environment: ${{ matrix.environment }}
 
-
   deploy:
     needs:
+      - setup
       - pre-deploy
     strategy:
       matrix:
