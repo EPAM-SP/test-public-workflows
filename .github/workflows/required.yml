@@ -7,17 +7,47 @@ on:
       - reopened
       - synchronize
       - ready_for_review
-  push:
-    branches:
-      - main
 
 jobs:
-  default:
-    name: Default Job
+  context:
+    name: Context
     runs-on:
       - ubuntu-latest
 
     steps:
       - uses: actions/github-script@v7
+        with:
+          script: console.log(context)
+
+  setup:
+    name: Setup
+    runs-on:
+      - ubuntu-latest
+
+    outputs:
+      environments: ${{ steps.envs.outputs.list }}
+
+    steps:
+      - id: envs
+        name: Environments
+        run: |
+          echo 'list="[\"dev\", \"test\", \"stage\", \"prod\"]"' | tee -a $GITHUB_OUTPUT;
+
+  deploy:
+    name: Deploy
+    runs-on:
+      - ubuntu-latest
+
+    needs: setup
+    strategy:
+      matrix:
+        environment: ${{ fromJSON(needs.setup.outputs.environments) }}
+
+    environment: ${{ matrix.environment }}
+
+    steps:
+      - id: context
+        name: Context
+        uses: actions/github-script@v7
         with:
           script: console.log(context)
